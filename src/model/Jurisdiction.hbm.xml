@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:25:35 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.Jurisdiction" table="JURISDICTION">
+        <id name="i_uuid" type="java.lang.String">
+            <column name="I_UUID" />
+            <generator class="assigned" />
+        </id>
+        <property name="jtype" type="java.lang.String">
+            <column name="JTYPE" />
+        </property>
+        <property name="jstate" type="java.lang.String">
+            <column name="JSTATE" />
+        </property>
+        <many-to-one name="usertype" class="model.Usertype" fetch="join">
+            <column name="USERTYPE" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

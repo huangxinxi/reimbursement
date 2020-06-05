@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	    xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+<!-- 定义使用C3P0连接池的数据源 -->  
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">  
+        <!-- 指定连接数据库的JDBC驱动 -->  
+        <property name="driverClass">  
+            <value>com.mysql.jdbc.Driver</value>  
+        </property>  
+        <!-- 连接数据库所用的URL -->  
+        <property name="jdbcUrl">  
+            <value>jdbc:mysql://localhost:3306/reimbursement?useUnicode=true&amp;characterEncoding=UTF-8</value>  
+        </property>  
+        <!-- 连接数据库的用户名 -->  
+        <property name="user">  
+            <value>root</value>  
+        </property>  
+        <!-- 连接数据库的密码 -->  
+        <property name="password">  
+            <value>123456</value>  
+        </property>  
+        <!-- 设置数据库连接池的最大连接数 -->  
+        <property name="maxPoolSize">  
+            <value>20</value>  
+        </property>  
+        <!-- 设置数据库连接池的最小连接数 -->                                                                                             
+        <property name="minPoolSize">  
+            <value>2</value>  
+        </property>  
+        <!-- 设置数据库连接池的初始化连接数 -->  
+        <property name="initialPoolSize">  
+            <value>2</value>  
+        </property>  
+        <!-- 设置数据库连接池的连接的最大空闲时间，单位为秒 -->  
+        <property name="maxIdleTime">  
+            <value>20</value>  
+        </property>  
+    </bean>    
+
+    
+<!-- 定义Hibernate的SessionFactory -->  
+    <bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!-- 注入连接池 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 配置Hibernate的属性 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.connection.release_mode">after_statement</prop>
+			</props>
+		</property>
+		<!-- 加载Hibernate中的映射文件 -->
+		<property name="mappingResources">
+			 <list>
+				<value>model/Jurisdiction.hbm.xml</value>
+				<value>model/Majorcost.hbm.xml</value>
+				<value>model/Majorcosttype.hbm.xml</value>
+				<value>model/Project.hbm.xml</value>
+				<value>model/Reimbursement.hbm.xml</value>
+				<value>model/Subcost.hbm.xml</value>
+				<value>model/Subcosttype.hbm.xml</value>
+				<value>model/User.hbm.xml</value>
+				<value>model/Usertype.hbm.xml</value>
+				<value>model/FileUpload.hbm.xml</value>
+			</list> 
+		</property>
+	</bean>
+      
+<!--定义Hibernate的事务管理器HibernateTransactionManager -->  
+    <bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+      
+<!-- 配置实体类 -->
+    <bean id="Jurisdiction" class="model.Jurisdiction"> 
+    	<property name="usertype" ref="Usertype"></property> 
+    </bean>
+    <bean id="Majorcost" class="model.Majorcost">  
+        <property name ="majorcosttype" ref="Majorcosttype"></property> 
+        <property name ="project" ref="Project"></property> 
+    </bean>
+    <bean id="Majorcosttype" class="model.Majorcosttype">  </bean>
+    <bean id="Project" class="model.Project"> 
+    	<property name ="presuser" ref="User"></property>     
+    </bean>
+    <bean id="Reimbursement" class="model.Reimbursement">  
+        <property name ="project" ref="Project"></property> 
+        <property name ="ruser" ref="User"></property> 
+    </bean>
+    <bean id="Subcost" class="model.Subcost"> 
+        <property name ="subcosttype" ref="Subcosttype"></property>
+        <property name ="reimbursement" ref="Reimbursement"></property>
+    </bean>
+    <bean id="Subcosttype" class="model.Subcosttype"> 
+    	<property name ="majorcosttype" ref="Majorcosttype"></property>
+    </bean>
+    <bean id="User" class="model.User"> 
+    	<property name="usertype" ref="Usertype"></property> 
+    </bean>  
+    <bean id="Usertype" class="model.Usertype">  </bean>
+ 	<bean id="FileUpload" class="model.FileUpload">  </bean>
+    
+ <!-- 配置DAO类 -->
+	<bean id="UserDaoImpl" class="dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="ProjectDaoImpl" class="dao.impl.ProjectDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	
+	<bean id="UsertypeDaoImpl" class="dao.impl.UsertypeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="UploadDaoImpl" class="dao.impl.UploadDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="ReimbursementDAOImpl" class="dao.impl.ReimbursementDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean> 
+	<bean id="MajorcosttypeDaoImpl" class="dao.impl.MajorcosttypeDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="MajorcostDaoImpl" class="dao.impl.MajorcostDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	 <bean id="SubcosttypeDaoImpl" class="dao.impl.SubcosttypeDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="SubcostDAOImpl" class="dao.impl.SubcostDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="QueryTableDAOImpl" class="dao.impl.QueryTableDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+<!-- 配置service层 --> 
+	<bean id="ProjectServiceImpl" class="service.impl.ProjectServiceImpl">
+		<property name="dao" ref="ProjectDaoImpl"></property>
+	</bean>
+	
+	<bean id="MajorcostServiceImpl" class="service.impl.MajorcostServiceImpl">
+		<property name="dao" ref="MajorcostDaoImpl"></property>
+	</bean>
+	<bean id="SubcostService" class="service.SubcostService">
+		<property name="subcostDao" ref="SubcostDAOImpl"></property>
+	</bean>
+	
+	  <bean id="ReimbursementService" class="service.ReimbursementService">
+		<property name="reimbursementDao" ref="ReimbursementDAOImpl"></property>
+	</bean> 
+	<bean id="UserServiceImpl" class="service.impl.UserServiceImpl">
+		<property name="UserDaoImpl" ref="UserDaoImpl"></property>
+		<property name="queryTableDAO" ref="QueryTableDAOImpl"></property>
+	</bean>  
+	<bean id="UsertypeServiceImpl" class="service.impl.UsertypeServiceImpl">
+		<property name="UsertypeDaoImpl" ref="UsertypeDaoImpl"></property>
+	</bean> 
+	<bean id="UploadServiceImpl" class="service.impl.UploadServiceImpl">
+		<property name="UploadDaoImpl" ref="UploadDaoImpl"></property>
+	</bean> 
+	
+	
+	<bean id="MajorcosttypeService" class="service.MajorcosttypeService">
+		<property name="majorcosttypeDao" ref="MajorcosttypeDaoImpl"></property>
+		<property name="queryTableDAO" ref="QueryTableDAOImpl"></property>
+	</bean>  	
+	<bean id="SubcosttypeService" class="service.SubcosttypeService">
+		<property name="subcosttypeDao" ref="SubcosttypeDaoImpl"></property>
+		<property name="queryTableDAO" ref="QueryTableDAOImpl"></property>
+		<property name="majorcosttypeDao" ref="MajorcosttypeDaoImpl"></property>
+	</bean>  
+<!-- 配置Action层 -->  
+	<!--导出excel  -->
+	<bean id="ActProject" class="action.ActProject" scope="prototype" >
+		<property name="service" ref="ProjectServiceImpl"></property>
+	</bean>
+	
+	<bean id="ExportAction" class="action.ExportAction" scope="prototype" >
+		<property name="reimbursementService" ref="ReimbursementService"></property>
+		<property name="reimbursement" ref="Reimbursement" />
+	</bean> 
+	
+	<bean id="UserAction" class="action.UserAction" scope="prototype" >
+		<property name="userServiceImpl" ref="UserServiceImpl"></property>
+		<property name="user" ref="User" />
+	</bean>
+	<bean id="UsertypeAction" class="action.UsertypeAction" scope="prototype" >
+		<property name="usertypeServiceImpl" ref="UsertypeServiceImpl"></property>
+		<property name="usertype" ref="Usertype" />
+	</bean>
+	<!--文件上传  -->
+	<bean id="UploadAction" class="action.UploadAction" scope="prototype" >
+		<property name="uploadServiceImpl" ref="UploadServiceImpl"></property>
+		<property name="fileUpload" ref="FileUpload" />
+	</bean>
+	<bean id="MajorcosttypeAction" class="action.MajorcosttypeAction" scope="prototype" >
+		<property name="majorcosttypeService" ref="MajorcosttypeService"></property>
+		<property name="majorcosttype" ref="Majorcosttype" />
+	</bean>
+	<bean id="SubcosttypeAction" class="action.SubcosttypeAction" scope="prototype" >
+		<property name="majorcosttypeService" ref="MajorcosttypeService"></property>
+		<property name="subcosttypeService" ref="SubcosttypeService"></property>
+		<property name="subcosttype" ref="Subcosttype" />
+	</bean>
+	
+	<bean id="ReimbursementAction" class="action.ReimbursementAction" scope="prototype" >
+		<property name="majorcosttypeService" ref="MajorcosttypeService"></property>
+		<property name="subcosttypeService" ref="SubcosttypeService"></property>
+		<property name="reimbursementService" ref="ReimbursementService"></property>
+		<property name="reimbursement" ref="Reimbursement"></property>
+		<property name="subcostService" ref="SubcostService"></property>
+	</bean>
+	<bean id="SubcostAction" class="action.SubcostAction" scope="prototype" >
+		<property name="subcostService" ref="SubcostService"></property>
+		<property name="subcosttypeService" ref="SubcosttypeService"></property>
+	</bean>
+</beans>  
