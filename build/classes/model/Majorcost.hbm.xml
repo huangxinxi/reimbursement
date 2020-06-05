@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:25:35 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.Majorcost" table="MAJORCOST">
+        <id name="m_uuid" type="java.lang.String">
+            <column name="M_UUID" />
+            <generator class="uuid" />
+        </id>
+        <many-to-one name="project" class="model.Project" fetch="join">
+            <column name="PROJECT" />
+        </many-to-one>
+        <many-to-one name="majorcosttype" class="model.Majorcosttype" fetch="join">
+            <column name="MAJORCOSTTYPE" />
+        </many-to-one>
+        <property name="mcost" type="java.lang.Integer">
+            <column name="MCOST" />
+        </property>
+        <property name="mstate" type="java.lang.String">
+            <column name="MSTATE" />
+        </property>
+    </class>
+</hibernate-mapping>

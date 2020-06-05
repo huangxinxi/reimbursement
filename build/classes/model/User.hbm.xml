@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:41:53 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.User" table="USER">
+         <id name="u_uuid" type="java.lang.String">
+            <column name="U_UUID" />
+            <generator class="uuid" />
+        </id>
+        <property name="uid" type="int">
+            <column name="UID" />
+        </property>
+        <property name="uname" type="java.lang.String">
+            <column name="UNAME" />
+        </property>
+        <property name="upassword" type="java.lang.String">
+            <column name="UPASSWORD" />
+        </property>
+        <property name="ustate" type="java.lang.String">
+            <column name="USTATE" />
+        </property>
+        <many-to-one name="usertype" lazy="false" class="model.Usertype" fetch="join">
+            <column name="USERTYPE" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

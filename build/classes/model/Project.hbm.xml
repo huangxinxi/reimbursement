@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:25:35 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.Project" table="PROJECT">
+        <id name="p_uuid" type="java.lang.String">
+            <column name="P_UUID" />
+            <generator class="uuid" />
+        </id>
+        <property name="pid" type="java.lang.Integer">
+            <column name="PID" />
+        </property>
+        <property name="p_name" type="java.lang.String">
+            <column name="P_NAME" />
+        </property>
+        <many-to-one name="presuser" lazy="false" class="model.User" fetch="join">
+            <column name="PRESUSER" />
+        </many-to-one>
+        <property name="ptype" type="java.lang.String">
+            <column name="PTYPE" />
+        </property>
+        <property name="pfield" type="java.lang.String">
+            <column name="PFIELD" />
+        </property>
+        <property name="psource" type="java.lang.String">
+            <column name="PSOURCE" />
+        </property>
+        <property name="pcostidp" type="java.lang.Integer">
+            <column name="PCOSTIDP" />
+        </property>
+        <property name="pcostpub" type="java.lang.Integer">
+            <column name="PCOSTPUB" />
+        </property>
+        <property name="pbegintime" type="java.util.Date">
+            <column name="PBEGINTIME" />
+        </property>
+        <property name="pendtime" type="java.util.Date">
+            <column name="PENDTIME" />
+        </property>
+        <property name="pstate" type="java.lang.String">
+            <column name="PSTATE" />
+        </property>
+       <!--  <set name="majorcosts" inverse="true" lazy="false" cascade="all-delete-orphan">  
+            <key>  
+                <column name="project_id" not-null="true" />  
+            </key>  
+            <one-to-many class="model.Majorcost" />  
+        </set>   -->
+    </class>
+</hibernate-mapping>

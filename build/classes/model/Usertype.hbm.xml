@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:25:35 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.Usertype" table="USERTYPE">
+        <id name="ut_uuid" type="java.lang.String">
+            <column name="UT_UUID" />
+            <generator class="uuid" />
+        </id>
+        <property name="uttype" type="java.lang.String">
+            <column name="UTTYPE" />
+        </property>
+        <property name="ustate" type="java.lang.String">
+            <column name="USTATE" />
+        </property>
+    </class>
+</hibernate-mapping>

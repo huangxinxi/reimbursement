@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:25:35 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.Reimbursement" table="REIMBURSEMENT">
+        <id name="r_uuid" type="java.lang.String">
+            <column name="R_UUID" />
+            <generator class="uuid" />
+        </id>
+        <property name="rid" type="java.lang.Integer">
+            <column name="RID" />
+        </property>
+        <property name="rdate" type="java.util.Date">
+            <column name="RDATE" />
+        </property>
+        <property name="rcostall" type="java.lang.Integer">
+            <column name="RCOSTALL" />
+        </property>
+        <property name="rstate" type="java.lang.String">
+            <column name="RSTATE" />
+        </property>
+        <many-to-one name="project" lazy="false" class="model.Project" fetch="join">
+            <column name="PROJECT" />
+        </many-to-one>
+        <many-to-one name="ruser" lazy="false" class="model.User" fetch="join">
+            <column name="RUSER" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.ui.theme" value="simple" />
+	
+    <package name = "action" namespace='/' extends = "struts-default">
+    
+        <action name = "loadProject" class = "action.ActProject" method = "loadProject">
+        </action>
+        <action name = "loadWaitProject" class = "action.ActProject" method = "loadWaitProject">
+        </action>
+		<action name = "findProject" class = "action.ActProject" method = "findProject">
+        </action>
+        <action name = "loadMajorCostType" class = "action.ActProject" method = "loadMajorCostType">
+        </action>
+        <action name = "addProject" class = "action.ActProject" method = "addProject">
+        </action>
+        <action name = "modifyProject" class = "action.ActProject" method = "modifyProject">
+        </action>
+        <action name = "delProject" class = "action.ActProject" method = "delProject">
+        </action>
+        <action name = "getMajorcost" class = "action.ActProject" method = "getMajorcost">
+        </action>
+        <action name = "passProject" class = "action.ActProject" method = "passProject">
+        </action>
+        <action name = "rejectProject" class = "action.ActProject" method = "rejectProject">
+        </action>
+        <action name = "loadReviewedProject" class = "action.ActProject" method = "loadReviewedProject">
+        </action>
+        
+         <!--项目 -->
+        <action name = "Project_*" class="ActProject" method ="{1}">  
+        </action>
+        <!--报销申请 -->
+        <action name = "Reimbursement_*" class="ReimbursementAction" method ="{1}">  
+        </action>
+        <!--报销项目  -->
+        <action name = "Subcost_*" class="SubcostAction" method ="{1}">  
+        </action>
+       <!-- 导出excel -->  
+        <action name="ExportAction" class="ExportAction">  
+           <result name = "export_success">/jsp/Base.jsp</result>
+        </action>            
+        
+        <action name="User_*" class="UserAction" method="{1}">  
+            <!-- 用户登录 -->
+			<result name="login_success_a">/jsp/Base.jsp</result>
+			<result name="login_success_t">/jsp/Base_t.jsp</result>
+			<result name="login_failure">/jsp/login.jsp</result>       
+   			<!-- 用户注册 -->
+			<result name="register_success">/jsp/login.jsp</result>
+			<!-- 添加用户 -->
+			<result name="addUser2_success">/jsp/user.jsp</result>
+			<!-- 删除用户 -->
+			<result name="deleteUser_success">/jsp/user.jsp</result>
+			<!-- 修改用户 -->
+			<result name="updateUser_success">/jsp/user.jsp</result>
+			<!-- 根据ID查找用户 -->
+			<result name="finduserbyid_success">/jsp/userchange.jsp</result>
+			<!-- 用户列表 -->
+			<result name="findAllUser_success">/jsp/user.jsp</result>
+			<!-- 用户列表 -->
+			<result name="refreshUserTable_success">/jsp/refreshUserTableAjax.jsp</result>
+		</action>
+		
+		<action name="Usertype_*" class="UsertypeAction" method="{1}">     
+   			<!-- 新增用户类型 -->
+			<result name="addUsertype_success">/jsp/usertype.jsp</result>
+			<!-- 查找用户类型 -->
+			<result name="findAllUsertype_success">/jsp/usertype.jsp</result>
+			<!-- 删除用户类型 -->
+			<result name="deleteUsertype_success">/jsp/usertype.jsp</result>
+			<!-- 用户类型列表 -->
+			<result name="Usertypelist_success">/jsp/register.jsp</result>
+			<!-- 用户类型列表2 -->
+			<result name="Usertypelist_success2">/jsp/login.jsp</result>
+			<!-- 用户类型列表3 -->
+			<result name="Usertypelist_success3">/jsp/useradd.jsp</result>
+		</action>
+        
+		<!-- 文件上传 -->  
+        <action name="UploadAction" class="UploadAction">  
+           <result name = "upload_success">/jsp/ReimburseManagement.jsp</result>  
+           <result name= "upload_null">/jsp/ReimburseManagement.jsp</result>  
+  
+       <!-- <interceptor-ref name="fileUpload">  
+               	 不写下面两个参数为允许所有大小所有类型的文件的上传  
+                <param name="maximumSize">1024000</param>   
+                <param name="allowedTypes">  
+                    application/msword,image/jpeg  
+                </param>  
+            </interceptor-ref>  
+            <interceptor-ref name="defaultStack" />   -->
+  
+        </action>
+        
+        <action name="Majorcosttype_*" class="MajorcosttypeAction" method="{1}">
+			<!-- 用户登录 -->
+			<result name="addMajorcosttype_success" type="chain">Majorcosttype_findAllMajorcosttype</result>
+			<result name="addMajorcosttype_fauile">Majorcosttype_findAllMajorcosttype</result>
+			<result name="findAllMajorcosttype_success" type="dispatcher">/jsp/MajorcosttypeManager.jsp</result>
+			<result name="deleteMajorcosttype_success" type="chain">Majorcosttype_findAllMajorcosttype</result>	
+			<result name="deleteMajorcosttype_fauile">/jsp/404.jsp</result>
+			<result name="updateMajorcosttype_success" type="chain">Majorcosttype_findAllMajorcosttype</result>	
+			<result name="updateMajorcosttype_fauile">/jsp/404.jsp</result>
+			<result name="findMajorcosttype_notnull" type="dispatcher">/jsp/MajorcosttypeManager_update.jsp
+			</result>
+			<result name="findMajorcosttype_null" type="dispatcher">/jsp/404.jsp
+			</result>
+			<result name="refreshMajorcosttypeTable_success" type="dispatcher">/jsp/refreshMajorcosttypeTableAjax.jsp
+			</result>
+			
+		</action>
+		<action name="Subcosttype_*" class="SubcosttypeAction" method="{1}">
+			<!-- 用户登录 -->		
+			<result name="deleteSelectonSubcosttype_success" type="chain">Subcosttype_findAllSubcosttype</result>
+			<result name="findAllMajorcosttype_sub_success" type="dispatcher">/jsp/SubcosttypeManager_add.jsp</result>
+			<result name="addSubcosttype_success" type="chain">Subcosttype_findAllSubcosttype</result>
+			<result name="addSubcosttype_fauile">Majorcosttype_findAllSubcosttype</result>
+			<result name="findAllSubcosttype_success" type="dispatcher">/jsp/SubcosttypeManager.jsp</result>
+			<result name="deleteSubcosttype_success" type="chain">Subcosttype_findAllSubcosttype</result>	
+			<result name="deleteSubcosttype_fauile">/jsp/404.jsp</result>
+			<result name="updateSubcosttype_success" type="chain">Subcosttype_findAllSubcosttype</result>	
+			<result name="updateSubcosttype_fauile">/jsp/404.jsp</result>
+			<result name="findSubcosttype_notnull" type="dispatcher">/jsp/SubcosttypeManager_update.jsp
+			</result>
+			<result name="findSubcosttype_null" type="dispatcher">/jsp/404.jsp
+			</result>	
+			<result name="refreshSubcosttypesTable_success" type="dispatcher">/jsp/refreshSubcosttypeTableAjax.jsp
+			</result>	
+		</action>
+        
+        
+        
+    </package>
+</struts>

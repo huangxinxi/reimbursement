@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:25:35 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.Majorcosttype" table="MAJORCOSTTYPE">
+         <id name="mt_uuid" type="java.lang.String">
+            <column name="MT_UUID" />
+            <generator class="uuid" />
+        </id>
+        <property name="mtid" type="java.lang.String">
+            <column name="MTID" />
+        </property>
+        <property name="mttype" type="java.lang.String">
+            <column name="MTTYPE" />
+        </property>
+        <property name="mtstate" type="java.lang.String">
+            <column name="MTSTATE" />
+        </property>
+    </class>
+</hibernate-mapping>

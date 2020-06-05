@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-6 9:25:35 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="model.Subcost" table="SUBCOST">
+        <id name="s_uuid" type="java.lang.String">
+            <column name="S_UUID" />
+            <generator class="uuid" />
+        </id>
+        <many-to-one name="reimbursement" class="model.Reimbursement" fetch="join">
+            <column name="REIMBURSEMENT" />
+        </many-to-one>
+        <many-to-one name="subcosttype" class="model.Subcosttype" fetch="join">
+            <column name="SUBCOSTTYPE" />
+        </many-to-one>
+        <property name="scost" type="java.lang.Integer">
+            <column name="SCOST" />
+        </property>
+        <property name="sstate" type="java.lang.String">
+            <column name="SSTATE" />
+        </property>
+    </class>
+</hibernate-mapping>
